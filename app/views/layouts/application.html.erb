@@ -3,12 +3,39 @@
   <head>
     <title>MessageBoard</title>
     <%= csrf_meta_tags %>
-
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
+  <div class="navbar navbar-default">
+      <div class="container">
+        
+        <div class="navbar-header">
+        <%= link_to 'Message Board', root_path, class: "navbar-brand" %>
+        </div>
+        
+        <ul class="nav navbar-nav">
+          <li> <%= link_to "Inscription", new_user_registration_path %> </li>          
+        <!-- si l'utilisateur est connecté: lui propose de se déconnecter, et inversement-->
+          <% if user_signed_in? %>
+            <li> <%= link_to "Déconnexion", destroy_user_session_path, method: :delete %> </li>
+          <% else %>
+            <li> <%= link_to "Connexion", new_user_session_path %></li>
+          <% end %>
+        </ul>
+        
+        <!-- si l'utilisateur est connecté, lui propose d'écrire un nouveau message -->
+        <ul class="nav navbar-nav navbar-right">
+            <% if user_signed_in? %>
+              <li><%= link_to "Nouveau message", new_message_path, class:"navbar-link"%></li>
+            <% end %>
+        </ul>
+        
+    </div>
+  </div>
+      <p class="notice"><%= notice %></p>
+      <p class="alert"><%= alert %></p>
     <%= yield %>
   </body>
 </html>

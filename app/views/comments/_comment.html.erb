@@ -1,0 +1,16 @@
+<h3> <%= comment.content %> </h3>
+<p>Posted by <%= comment.user.email%> <%= time_ago_in_words(comment.created_at) %></p>
+
+<% if user_signed_in? %>
+  <%if current_user.id == comment.user_id %>
+    <%= link_to 'modifier', edit_message_comment_path(comment.message, comment)  %><%# *1 %>
+    <%= link_to 'effacer', message_comment_path(comment.message, comment), method: :delete,
+    data: { confirm: "Confirmer la suppression?"} 
+    %>
+  <% end %>
+<% end %>
+
+<%# 1) Nous spécifions 
+  * le message concerné par le commentaire, qui apparaitra en premier dans l'url (messages/3... par exemple)
+  * le commentaire concerné par rapport aux autres commentaires (messages/3/comments/2) 
+  %>

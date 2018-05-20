@@ -1,0 +1,20 @@
+<h2><%= @message.title %></h2>
+<p> Ajouté par <%= @message.user.email%> <%= time_ago_in_words(@message.created_at) %></p>
+<h2><%= @message.description%></h2>
+
+<h2>Commentaires: </h2>
+
+<%= render @message.comments %> <!-- *1 -->
+
+<h3>Répondre au message</h3>
+<%= render 'comments/form' %>
+
+<%= link_to 'Retour', root_path %>
+<% if user_signed_in?%>
+  <% if @message.user_id == current_user.id %>
+    <%= link_to 'Modifier', edit_message_path(@message) %>
+    <%= link_to 'Effacer', message_path(@message), method: :delete, data: {confirm: "Confirmez-vous la suppression?"} %>
+  <% end %>
+<% end %>
+<!-- *l'utilisation d'un partial (ici: _comments) permet de ne pas avoir à itérer sur tous 
+      les commentaires liés au message avec une boucle.  -->
